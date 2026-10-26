@@ -5,7 +5,7 @@ const { getRandomId } = require("../config/global")
 
 const router = express.Router()
 
-router.post("/create", verifyToken, async (req, res) => {
+router.post(["/", "/create"], verifyToken, async (req, res) => {
     try {
         const { title, dueDate, description, priority, status } = req.body
         const { uid } = req
@@ -24,7 +24,7 @@ router.post("/create", verifyToken, async (req, res) => {
     }
 })
 
-router.get("/all", verifyToken, async (req, res) => {
+router.get(["/", "/all"], verifyToken, async (req, res) => {
     try {
         const { uid } = req
 
@@ -38,7 +38,7 @@ router.get("/all", verifyToken, async (req, res) => {
     }
 })
 
-router.get("/single/:id", verifyToken, async (req, res) => {
+router.get(["/single/:id", "/:id"], verifyToken, async (req, res) => {
     try {
         const { uid } = req
         const { id } = req.params
@@ -53,9 +53,10 @@ router.get("/single/:id", verifyToken, async (req, res) => {
     }
 })
 
-router.patch("/update", verifyToken, async (req, res) => {
+router.patch(["/update", "/:id"], verifyToken, async (req, res) => {
     try {
-        const { id, title, dueDate, description, priority, status, isCompleted } = req.body
+        const id = req.params.id || req.body.id
+        const { title, dueDate, description, priority, status, isCompleted } = req.body
         const { uid } = req
 
         const taskData = { id, title, dueDate, description, priority, status, isCompleted }
@@ -70,7 +71,7 @@ router.patch("/update", verifyToken, async (req, res) => {
     }
 })
 
-router.delete("/delete/:id", verifyToken, async (req, res) => {
+router.delete(["/delete/:id", "/:id"], verifyToken, async (req, res) => {
     try {
         const { uid } = req
         const { id } = req.params

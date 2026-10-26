@@ -8,6 +8,11 @@ const app = express();
 connectDB();
 
 app.use(cors());
+app.use(cors({
+    origin: 'https://task-frontend-beta-nine.vercel.app',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
+    credentials: true
+}));
 app.use(express.json())
 
 app.use("/auth", auth)
